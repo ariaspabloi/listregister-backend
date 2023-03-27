@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb'
 import connection from '../connect.js'
 
 export class MongoDbContainer {
@@ -11,6 +12,7 @@ export class MongoDbContainer {
   }
 
   async getById(_id) {
+    _id = new ObjectId(_id)
     const object = await this.collection.findOne({ _id })
     return object
   }
@@ -22,10 +24,11 @@ export class MongoDbContainer {
 
   async save(object) {
     const saved = await this.collection.insertOne({ ...object })
-    return object
+    return { ...object, _id: saved.insertedId.toString() }
   }
 
   async update(object, _id) {
+    _id = new ObjectId(_id)
     await this.collection.updateOne({ _id }, { $set: object })
   }
 

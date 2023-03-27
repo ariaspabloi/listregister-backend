@@ -1,31 +1,21 @@
 import * as classService from '../../services/classService.js'
 
-export const getValidateClassId = async (req, res) => {
-  const classId = req.params.classId
-  if (!!classId) return res.status(400)
-  const existId = await classService.getExistClassCode(classId)
-  if (existId) return res.status(409)
-  return res.status(200).json()
-}
-
-export const postClassRecord = async (req, res) => {
-  const classId = req.params.classId
+export const postAddRecord = async (req, res) => {
+  const id = req.params.id
   const record = req.body
   //TODO: RETORNAR OBJECTO ACTUALIZADO y true o false
-  classService.postClassRegister(classId, record)
+  classService.postAddRecord(id, record)
   return res.status(200).json()
 }
 
-export const postNewClass = async (req, res) => {
-  const { classId } = req.body
-  const classKey = crypto.randomUUID()
-  const newClass = await classService.postNewClass({ classId, classKey })
+export const getCreateClass = async (req, res) => {
+  const newClass = await classService.getCreateClass()
   if (!newClass) return res.status(400).json()
   return res.status(200).json(newClass)
 }
 
 export const generateScript = async (req, res) => {
-  const { classKey } = req.body
-  const records = await classService.getGenerateScript(classKey)
+  const { key } = req.body
+  const records = await classService.getGenerateScript(key)
   return res.status(200).json(records)
 }

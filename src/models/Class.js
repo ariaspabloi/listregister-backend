@@ -1,12 +1,12 @@
 export default class Class {
   #_id
   #records
-  #classKey
+  #key
 
-  constructor({ _id, records, classKey }) {
+  constructor({ _id, records, key }) {
     this.#_id = _id
     this.#setRecords(records)
-    this.#setClassKey(classKey)
+    this.#setKey(key)
   }
 
   addRecord(record) {
@@ -31,18 +31,18 @@ export default class Class {
     this.#records = value
   }
 
-  #setClassKey(value) {
+  #setKey(value) {
     if (!value) return
     // if (typeof value !== 'string')
     //   throw new Api400Error('El id debe estar formado por caracteres.');
-    this.#classKey = value
+    this.#key = value
   }
 
   dto() {
     return Object.freeze({
       ...(this.#_id && { _id: this.#_id }),
       records: this.#records,
-      classKey: this.#classKey,
+      key: this.#key,
     })
   }
 
@@ -53,6 +53,6 @@ export default class Class {
     return this.#records
   }
   get classKey() {
-    return this.#classKey
+    return this.#key
   }
 }
